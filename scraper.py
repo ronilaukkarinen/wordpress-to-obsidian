@@ -84,6 +84,11 @@ def get_full_post_content(url):
     if not content:
       return None
 
+    # Remove notification-box div if it exists
+    notification_box = content.select_one(".notification-box")
+    if notification_box:
+      notification_box.decompose()
+
     reading_time = soup.select_one(".time-to-read")
     reading_time = reading_time.text.strip() if reading_time else None
 
