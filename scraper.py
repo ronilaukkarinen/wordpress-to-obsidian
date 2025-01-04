@@ -19,7 +19,23 @@ blogs = [
     "name": "rollemaa-lokikirja",
     "feed": "https://www.rollemaa.fi/lokikirja/feed/?paged={}&posts_per_page=50000",
     "output_path": "/home/rolle/Documents/Brain dump/Blogit/rollemaa-lokikirja"
+  },
+  {
+    "name": "rolle.design",
+    "feed": "https://rolle.design/feed/?paged={}&posts_per_page=50000",
+    "output_path": "/home/rolle/Documents/Brain dump/Blogit/rolle.design"
+  },
+  {
+    "name": "dude.fi",
+    "feed": "https://dude.fi/feed/?paged={}&posts_per_page=50000",
+    "output_path": "/home/rolle/Documents/Brain dump/Blogit/dude.fi"
   }
+  # Your new blog here
+  # {
+  #   "name": "your-new-blog",
+  #   "feed": "https://your-new-blog.com/feed/?paged={}&posts_per_page=50000",
+  #   "output_path": "/home/rolle/Documents/Brain dump/Blogit/your-new-blog"
+  # }
 ]
 
 def sanitize_filename(filename):

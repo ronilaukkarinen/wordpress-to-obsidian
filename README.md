@@ -38,5 +38,32 @@ crontab -e
 Add this line to the end of the file:
 
 ```bash
-0 0 * * * /usr/bin/python3 /home/rolle/wordpress-to-obsidian/scraper.py > /tmp/wordpress-to-obsidian.log 2>&1
+0 0 * * * /usr/bin/python3 /home/rolle/wordpress-to-obsidian/scraper.py >> /tmp/wordpress-to-obsidian.log 2>&1
+```
+
+## For Pyenv
+
+If you are using pyenv, you can install the required packages in the virtual environment:
+
+```bash
+sudo apt install python3-full python3-venv
+cd /home/rolle/wordpress-to-obsidian
+python3 -m venv venv
+source venv/bin/activate
+pip install requests beautifulsoup4 html2text feedparser
+python scraper.py
+```
+
+Add helper script for running the script in the virtual environment:
+
+```bash
+echo 'source /home/rolle/wordpress-to-obsidian/venv/bin/activate && python /home/rolle/wordpress-to-obsidian/scraper.py' > wordpress-to-obsidian
+sudo mv wordpress-to-obsidian /usr/local/bin/
+sudo chmod +x /usr/local/bin/wordpress-to-obsidian
+```
+
+Then the cronjob can be added like this:
+
+```bash
+0 0 * * * /usr/local/bin/wordpress-to-obsidian >> /tmp/wordpress-to-obsidian.log 2>&1 > /dev/null
 ```
