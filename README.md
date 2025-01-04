@@ -1,4 +1,4 @@
-# WordPress to Obsidian Converter
+# WordPress to Obsidian converter
 
 A Python script to convert WordPress blog posts to Markdown files for Obsidian. The script fetches posts from WordPress RSS feeds and organizes them into a year/month folder structure.
 
