@@ -207,8 +207,11 @@ def fetch_and_convert_posts():
           # Add line break before lists, but not between list items
           markdown_content = re.sub(r'([^\n])\n(\s*- )', r'\1\n\n\2', markdown_content)
 
-          # Remove extra line breaks between list items (handle any indentation)
-          markdown_content = re.sub(r'(^\s*- .*)\n\n(\s*- )', r'\1\n\2', markdown_content, flags=re.MULTILINE)
+          # First normalize all list items to have single newlines
+          markdown_content = re.sub(r'(\s*- [^\n]+)(\n\n+)(\s*- )', r'\1\n\3', markdown_content)
+
+          # Then clean up any remaining multiple newlines between list items
+          markdown_content = re.sub(r'(\n\s*- [^\n]+\n)\n+(\s*- )', r'\1\2', markdown_content)
 
           # Add line break between image and figcaption
           markdown_content = re.sub(r'(!\[.*?\].*?)(\[.*?\])', r'\1\n\2', markdown_content)
