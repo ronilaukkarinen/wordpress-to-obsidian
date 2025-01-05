@@ -83,6 +83,8 @@ def get_full_post_content(url):
     # Try different common content selectors
     content_selectors = [
       ".entry-content",
+      ".gutenberg-content",
+      ".site-content article",
       "article",
       ".post-content",
       ".content",
