@@ -201,6 +201,9 @@ def fetch_and_convert_posts():
           # Replace 3 or more newlines with just 2 newlines (one blank line between paragraphs)
           markdown_content = re.sub(r'\n{3,}', '\n\n', markdown_content)
 
+          # Fix list item spacing: replace "  -" with " - "
+          markdown_content = re.sub(r'^\s{2}-', ' - ', markdown_content, flags=re.MULTILINE)
+
           with open(filepath, "w", encoding='utf-8') as file:
             file.write(f"# {title}\n\n")
 
