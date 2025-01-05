@@ -80,14 +80,33 @@ def get_full_post_content(url):
     og_image = soup.find('meta', property='og:image')
     featured_image = og_image['content'] if og_image else None
 
-    content = soup.select_one(".entry-content")
+    # Try different common content selectors
+    content_selectors = [
+      ".entry-content",
+      "article",
+      ".post-content",
+      ".content",
+      "main",
+      "#content",
+      ".article-content",
+      "[itemprop='articleBody']"
+    ]
+
+    content = None
+    for selector in content_selectors:
+      content = soup.select_one(selector)
+      if content:
+        break
+
     if not content:
+      print(f"No content found for {url}. Available classes:", [cls for tag in soup.find_all(class_=True) for cls in tag['class']])
       return None
 
-    # Remove notification-box div if it exists
-    notification_box = content.select_one(".notification-box")
-    if notification_box:
-      notification_box.decompose()
+    # Remove unwanted elements
+    for unwanted in [".notification-box", ".author-info"]:
+      element = content.select_one(unwanted)
+      if element:
+        element.decompose()
 
     reading_time = soup.select_one(".time-to-read")
     reading_time = reading_time.text.strip() if reading_time else None
