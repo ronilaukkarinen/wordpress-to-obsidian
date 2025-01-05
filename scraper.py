@@ -204,6 +204,9 @@ def fetch_and_convert_posts():
           # Fix list item spacing: replace "  -" with " - "
           markdown_content = re.sub(r'^\s{2}-', ' - ', markdown_content, flags=re.MULTILINE)
 
+          # Add line break between image and figcaption
+          markdown_content = re.sub(r'(!\[.*?\].*?)(\[.*?\])', r'\1\n\2', markdown_content)
+
           with open(filepath, "w", encoding='utf-8') as file:
             file.write(f"# {title}\n\n")
 
