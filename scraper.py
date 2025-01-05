@@ -105,7 +105,7 @@ def get_full_post_content(url):
       return None
 
     # Remove unwanted elements
-    for unwanted in [".notification-box", ".author-info", ".post-past"]:
+    for unwanted in [".notification-box", ".author-info", ".post-past", "a[href*='buymeacoffee.com']"]:
       element = content.select_one(unwanted)
       if element:
         element.decompose()
@@ -198,20 +198,21 @@ def fetch_and_convert_posts():
           h2t.wrap_links = False
           markdown_content = h2t.handle(full_post['content'])
 
-          # Replace 3 or more newlines with just 2 newlines (one blank line between paragraphs)
+          # Replace 3 or more newlines with just 2 newlines
           markdown_content = re.sub(r'\n{3,}', '\n\n', markdown_content)
 
-          # Fix list item spacing: ensure exactly one space before and after the dash
+          # Fix list item spacing
           markdown_content = re.sub(r'^\s*-\s+', ' - ', markdown_content, flags=re.MULTILINE)
 
-          # Add line break before lists, but not between list items
+          # Add line break before lists
           markdown_content = re.sub(r'([^\n])\n(\s*- )', r'\1\n\n\2', markdown_content)
 
-          # First normalize all list items to have single newlines
+          # Normalize list items
           markdown_content = re.sub(r'(\s*- [^\n]+)(\n\n+)(\s*- )', r'\1\n\3', markdown_content)
-
-          # Then clean up any remaining multiple newlines between list items
           markdown_content = re.sub(r'(\n\s*- [^\n]+\n)\n+(\s*- )', r'\1\2', markdown_content)
+
+          # Fix markdown link formatting (remove extra spaces inside brackets and parentheses)
+          markdown_content = re.sub(r'\[ (.*?) \]\((.*?)\)', r'[\1](\2)', markdown_content)
 
           # Add line break between image and figcaption
           markdown_content = re.sub(r'(!\[.*?\].*?)(\[.*?\])', r'\1\n\2', markdown_content)
