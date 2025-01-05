@@ -105,7 +105,7 @@ def get_full_post_content(url):
       return None
 
     # Remove unwanted elements
-    for unwanted in [".notification-box", ".author-info"]:
+    for unwanted in [".notification-box", ".author-info", ".post-past"]:
       element = content.select_one(unwanted)
       if element:
         element.decompose()
