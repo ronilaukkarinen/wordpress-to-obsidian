@@ -204,8 +204,11 @@ def fetch_and_convert_posts():
           # Fix list item spacing: ensure exactly one space before and after the dash
           markdown_content = re.sub(r'^\s*-\s+', ' - ', markdown_content, flags=re.MULTILINE)
 
-          # Add line break before lists
+          # Add line break before lists, but not between list items
           markdown_content = re.sub(r'([^\n])\n(\s*- )', r'\1\n\n\2', markdown_content)
+
+          # Remove extra line breaks between list items
+          markdown_content = re.sub(r'(\n\s*- .*?)\n\n(\s*- )', r'\1\n\2', markdown_content)
 
           # Add line break between image and figcaption
           markdown_content = re.sub(r'(!\[.*?\].*?)(\[.*?\])', r'\1\n\2', markdown_content)
