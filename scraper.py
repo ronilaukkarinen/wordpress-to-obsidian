@@ -201,8 +201,8 @@ def fetch_and_convert_posts():
           # Replace 3 or more newlines with just 2 newlines (one blank line between paragraphs)
           markdown_content = re.sub(r'\n{3,}', '\n\n', markdown_content)
 
-          # Fix list item spacing: replace "  -" with " - "
-          markdown_content = re.sub(r'^\s{2}-', ' - ', markdown_content, flags=re.MULTILINE)
+          # Fix list item spacing: ensure exactly one space before and after the dash
+          markdown_content = re.sub(r'^\s*-\s+', ' - ', markdown_content, flags=re.MULTILINE)
 
           # Add line break between image and figcaption
           markdown_content = re.sub(r'(!\[.*?\].*?)(\[.*?\])', r'\1\n\2', markdown_content)
