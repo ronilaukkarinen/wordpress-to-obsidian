@@ -191,7 +191,15 @@ def fetch_and_convert_posts():
 
           h2t = html2text.HTML2Text()
           h2t.body_width = 0
+          h2t.ignore_emphasis = False
+          h2t.single_line_break = True  # Reduces extra line breaks
+          h2t.ul_item_mark = '-'  # Consistent list markers
+          h2t.inline_links = True
+          h2t.wrap_links = False
           markdown_content = h2t.handle(full_post['content'])
+
+          # Remove multiple consecutive empty lines
+          markdown_content = re.sub(r'\n\s*\n', '\n\n', markdown_content)
 
           with open(filepath, "w", encoding='utf-8') as file:
             file.write(f"# {title}\n\n")
